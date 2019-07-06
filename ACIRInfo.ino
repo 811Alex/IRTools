@@ -7,7 +7,7 @@
 // Settings
 const short TSOP = 2;               // IR sensor pin
 const short LED = 13;               // status indicator led pin
-const bool COUNTER_MODE = false;    // count pulses & bytes instead of running normally
+const short MODE = 0;             // 0: NORMAL, 1: count pulses & bytes, 2: print length of separators
 // Decoding settings
 const short BITS = 8;
 const short BYTES = 7;              // bytes per signal
@@ -30,11 +30,16 @@ void setup(){
 
 void loop(){
   digitalWrite(LED, ledState=!ledState);  // blink led
-  if(COUNTER_MODE) pulseCount();
-  else if((start_length = pulseIn(TSOP,LOW)) > START_BIT_LENGTH){ // Check if the Start Bit has been received.
-    readSignal();   // read from TSOP
-    decodeSignal(); // decode and print info
-    delay(150);     // wait before reading next
+  switch(MODE){
+    case 1: pulseCount(); break;
+    case 2: readSeparators(); break;
+    default:
+      if((start_length = pulseIn(TSOP,LOW)) > START_BIT_LENGTH){ // Check if the Start Bit has been received.
+        //pulseIn(TSOP,HIGH);
+        readSignal();   // read from TSOP
+        decodeSignal(); // decode and print info
+        delay(150);     // wait before reading next
+      }
   }
 }
 
@@ -79,6 +84,17 @@ void pulseCount(){
     Serial.print("Bytes: ");
     Serial.print((float)(i-1)/BITS);      // exclude start bit
     Serial.println(" (+ start bit)\n");
+  }
+}
+
+void readSeparators(){  // print average separator length
+  int length, avg;
+  if((avg = pulseIn(TSOP,LOW,100000))>0){
+    while((length = pulseIn(TSOP,LOW,100000)) > 0)
+      avg = (avg+length)/2;
+    Serial.print("Avg. separator length:\t");
+    Serial.print(avg);
+    Serial.println("μs");
   }
 }
 
