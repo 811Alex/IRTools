@@ -8,6 +8,7 @@
 const short TSOP = 2;               // IR sensor pin
 const short LED = 13;               // status indicator led pin
 const short MODE = 0;             // 0: NORMAL, 1: count pulses & bytes, 2: print length of separators
+const bool SKIP_LENGTHS = true;    // for normal mode, skips printing the pulse lengths
 // Decoding settings
 const short BITS = 8;
 const short BYTES = 7;              // bytes per signal
@@ -49,12 +50,15 @@ void decodeSignal(){
   Serial.println(++count);
   Serial.print("Start bit:\t");
   Serial.print(start_length);
-  Serial.print("μs\nLengths:\t");
-  for(int i = 0; i<BYTES; i++)
-    for(int j = 0; j<BITS; j++){  // print raw data
-      Serial.print(raw[i][j]);
-      Serial.print(' ');
-    }
+  if(!SKIP_LENGTHS){
+    Serial.print("μs\nLengths:\t");
+    for(int i = 0; i<BYTES; i++)
+      for(int j = 0; j<BITS; j++){  // print raw data
+        Serial.print(raw[i][j]);
+        Serial.print(' ');
+      }
+  }
+  else Serial.print("μs");
   Serial.print("\nData:\t\t");
   for(int i = 0; i<BYTES; i++){
     for(int j = 0; j<BITS; j++){  // decode and print decoded data
