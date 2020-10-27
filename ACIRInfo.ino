@@ -2,6 +2,10 @@
   Tool to get info about an A/C IR remote signal.
   You will need a TSOP to receive the signal.
   You can change the settings bellow, but the tool should read a lot of signals out of the box.
+  First, you might want to use MODE = 1, to get the amount of bytes in the remote's protocol.
+  Then, set BYTES = <the amount of bytes> & MODE = 0.
+  The first signal, when the arduino boots with MODE = 0, will calibrate the algorithm to recognise 1s & 0s.
+  If you want to use a different remote, restart the arduino.
   Repository: https://github.com/811Alex/IRTools
 */
 // Settings
