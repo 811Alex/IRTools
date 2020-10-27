@@ -110,6 +110,7 @@ void readSignal(){
 
 void calibrate(){ // find appropriate threshold, for binary decoding, using K-means on the data (excluding the start bit)
   Serial.println("Calibrating...");
+  delay(20);
   int bin0 = 0, bin1 = 0;   // pulse lengths for 1 & 0
   int flatRaw[BYTES*BITS];
   flattenArray(raw, flatRaw);
