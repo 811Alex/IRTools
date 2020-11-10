@@ -12,7 +12,7 @@
 const short TSOP = 2;               // IR sensor pin
 const short LED = 13;               // status indicator led pin
 const short MODE = 0;             // 0: NORMAL, 1: count pulses & bytes, 2: print length of separators
-const bool SKIP_LENGTHS = true;    // for normal mode, skips printing the pulse lengths
+const bool SKIP_LENGTHS = false;    // for normal mode, skips printing the pulse lengths
 // Decoding settings
 const short BITS = 8;
 const short BYTES = 7;              // bytes per signal
@@ -22,6 +22,7 @@ bool data[BYTES][BITS];   // binary data
 bool prev[BYTES][BITS];   // previous bin data
 int raw[BYTES][BITS];     // raw pulse lengths
 int start_length;         // last start bit length
+int start_sep_length;     // last start bit separator length
 int count = 0;            // signal count
 int binThreshold = 0;     // anything longer than this will be considered a 1
 bool ledState = false;
@@ -40,10 +41,9 @@ void loop(){
     case 2: readSeparators(); break;
     default:
       if((start_length = pulseIn(TSOP,LOW)) > START_BIT_LENGTH){ // Check if the Start Bit has been received.
-        //pulseIn(TSOP,HIGH);
+        start_sep_length = pulseIn(TSOP,HIGH);
         readSignal();   // read from TSOP
         decodeSignal(); // decode and print info
-        delay(150);     // wait before reading next
       }
   }
 }
@@ -54,6 +54,8 @@ void decodeSignal(){
   Serial.println(++count);
   Serial.print("Start bit:\t");
   Serial.print(start_length);
+  Serial.print("μs\nStart bit sep:\t");
+  Serial.print(start_sep_length);
   if(!SKIP_LENGTHS){
     Serial.print("μs\nLengths:\t");
     for(int i = 0; i<BYTES; i++)
