@@ -41,7 +41,6 @@ void loop(){
     case 2: readSeparators(); break;
     default:
       if((start_length = pulseIn(TSOP,LOW)) > START_BIT_LENGTH){ // Check if the Start Bit has been received.
-        start_sep_length = pulseIn(TSOP,HIGH);
         readSignal();   // read from TSOP
         decodeSignal(); // decode and print info
       }
@@ -54,8 +53,6 @@ void decodeSignal(){
   Serial.println(++count);
   Serial.print("Start bit:\t");
   Serial.print(start_length);
-  Serial.print("μs\nStart bit sep:\t");
-  Serial.print(start_sep_length);
   if(!SKIP_LENGTHS){
     Serial.print("μs\nLengths:\t");
     for(int i = 0; i<BYTES; i++)
