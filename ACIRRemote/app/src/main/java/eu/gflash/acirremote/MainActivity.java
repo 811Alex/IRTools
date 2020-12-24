@@ -63,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
         ((RadioButton)findViewById(R.id.hipow)).setChecked(p.getBoolean("hipow", false));
         ((RadioButton)findViewById(R.id.normal)).setChecked(p.getBoolean("normal", true));
         ((RadioButton)findViewById(R.id.sleep)).setChecked(p.getBoolean("sleep", false));
-        ((RadioButton)findViewById(R.id.timeroff)).setChecked(p.getBoolean("timeroff", true));
-        ((RadioButton)findViewById(R.id.timerminutes)).setChecked(p.getBoolean("timerminutes", false));
-        ((RadioButton)findViewById(R.id.timerhour)).setChecked(p.getBoolean("timerhour", false));
+        //((RadioButton)findViewById(R.id.timeroff)).setChecked(p.getBoolean("timeroff", true));
+        //((RadioButton)findViewById(R.id.timerminutes)).setChecked(p.getBoolean("timerminutes", false));
+        //((RadioButton)findViewById(R.id.timerhour)).setChecked(p.getBoolean("timerhour", false));
         ((Switch)findViewById(R.id.swing)).setChecked(p.getBoolean("swing", false));
         ((Switch)findViewById(R.id.fresh)).setChecked(p.getBoolean("fresh", false));
         //((Switch)findViewById(R.id.power)).setChecked(p.getBoolean("power", false));
